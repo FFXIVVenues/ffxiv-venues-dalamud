@@ -1,0 +1,16 @@
+{
+  "Author": "FFXIV Venues",
+  "Name": "FFXIV Venues",
+  "Punchline": "We give you /venues",
+  "Description": "Use /venues",
+  "InternalName": "FFXIVVenues.Dalamud",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "venues",
+    "venue",
+    "rp",
+    "ffxiv venues",
+    "role",
+    "roleplay"
+  ]
+}
