@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace FFXIVVenues.Dalamud.Commands.Brokerage
 {
-    internal class CommandBroker
+    internal class CommandBroker : IDisposable
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly CommandManager _commandManager;
@@ -71,6 +71,12 @@ namespace FFXIVVenues.Dalamud.Commands.Brokerage
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             var handler = _typeMap.Activate(command);
             handler?.Handle(args);
+        }
+
+        public void Dispose()
+        {
+            foreach (var key in this._typeMap.Keys)
+                this._commandManager.RemoveHandler(key);
         }
 
     }

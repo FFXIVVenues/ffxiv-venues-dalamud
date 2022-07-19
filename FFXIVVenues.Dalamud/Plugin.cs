@@ -13,7 +13,6 @@ namespace FFXIVVenues.Dalamud
         public string Name => "FFXIV Venues";
         private readonly ServiceProvider _serviceProvider;
 
-
         public Plugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
             [RequiredVersion("1.0")] CommandManager commandManager,
@@ -24,6 +23,7 @@ namespace FFXIVVenues.Dalamud
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton(pluginInterface);
+            serviceCollection.AddSingleton(pluginInterface.UiBuilder);
             serviceCollection.AddSingleton(commandManager);
             serviceCollection.AddSingleton(chatGui);
             serviceCollection.AddSingleton(config);
