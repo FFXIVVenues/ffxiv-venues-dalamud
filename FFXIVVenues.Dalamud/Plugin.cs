@@ -1,10 +1,12 @@
-﻿using Dalamud.Game.Command;
+﻿using System;
+using Dalamud.Game.Command;
 using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using FFXIVVenues.Dalamud.Commands.Brokerage;
+using FFXIVVenues.Dalamud.UI.Abstractions;
 
 namespace FFXIVVenues.Dalamud
 {
@@ -19,6 +21,7 @@ namespace FFXIVVenues.Dalamud
             [RequiredVersion("1.0")] ChatGui chatGui)
         {
             var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://api.ffxivvenues.com/");
             var config = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
             var serviceCollection = new ServiceCollection();
@@ -29,7 +32,9 @@ namespace FFXIVVenues.Dalamud
             serviceCollection.AddSingleton(config);
             serviceCollection.AddSingleton(httpClient);
             serviceCollection.AddSingleton<CommandBroker>();
-
+            serviceCollection.AddSingleton<WindowBroker>();
+            serviceCollection.AddSingleton<VenueService>();
+                
             this._serviceProvider = serviceCollection.BuildServiceProvider();
             this._serviceProvider.GetService<CommandBroker>()?.ScanForCommands();
         }
