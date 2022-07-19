@@ -59,6 +59,52 @@ namespace FFXIVVenues.Dalamud.Commands
                     Message = $"{venue.Name} is open until {closing:t}.",
                     Type = XivChatType.Notice
                 });
+
+                //Test ^^^ This will be taken place of the bit on #57
+                if (venue.Location.Apartment != 0 && venue.Location.Subdivision == true)
+                {
+                    this._chatGui.PrintChat(new()
+                    {
+                        Message = $"Adress: " +
+                        venue.Location.DataCenter.ToString() + "|" +
+                        venue.Location.World.ToString() + "|" +
+                        venue.Location.District.ToString() + "|" +
+                        venue.Location.Ward.ToString() + "|" +
+                        "Sub|Apt " +
+                        venue.Location.Apartment.ToString(),
+                        Type = XivChatType.Notice
+                    });
+                }
+                else if (venue.Location.Apartment != 0 && venue.Location.Subdivision == false)
+                {
+                    this._chatGui.PrintChat(new()
+                    {
+                        Message = $"Adress: " +
+                        venue.Location.DataCenter.ToString() + "|" +
+                        venue.Location.World.ToString() + "|" +
+                        venue.Location.District.ToString() + "|W " +
+                        venue.Location.Ward.ToString() + "|" +
+                        "Apt " +
+                        venue.Location.Apartment.ToString(),
+                        Type = XivChatType.Notice
+                    });
+                }
+                else
+                {
+                    this._chatGui.PrintChat(new()
+                    {
+                        Message = $"Adress: " +
+                        venue.Location.DataCenter.ToString() + "|" +
+                        venue.Location.World.ToString() + "|" +
+                        venue.Location.District.ToString() + "| W" +
+                        venue.Location.Ward.ToString() + "|" +
+                        "Plot " +
+                        venue.Location.Plot.ToString(),
+                        Type = XivChatType.Notice
+                    });
+                }
+
+
             }
 
         }
