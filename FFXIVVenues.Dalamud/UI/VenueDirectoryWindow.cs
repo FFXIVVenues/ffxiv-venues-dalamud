@@ -12,19 +12,20 @@ namespace FFXIVVenues.Dalamud.UI
 {
     internal class VenueDirectoryWindow : Window
     {
-        private readonly HttpClient _httpClient = new HttpClient();
-        public VenueDirectoryWindow(UiBuilder uiBuilder) : base(uiBuilder) {
+        Venue[] venues;
+        public VenueDirectoryWindow(UiBuilder uiBuilder, Venue[] venues) : base(uiBuilder) {
             this.InitialSize = new Vector2(800, 100);
+            this.venues = venues;
         }
 
-        public async override void Render()
+        public override void Render()
         {
             // ImGui is it's own library that Dalamud is using
             ImGui.Text("A list of venues");
             ImGui.Spacing();
 
         //Fetch venues to show -- will be a method later
-        var venues = await this._httpClient.GetFromJsonAsync<Venue[]>("https://api.ffxivvenues.com/venue?open=true");
+       
 
             if (ImGui.BeginTable("Table Id", 3))
             {
