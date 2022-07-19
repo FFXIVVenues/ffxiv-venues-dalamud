@@ -15,25 +15,17 @@ namespace FFXIVVenues.Dalamud.Commands
     {
         private readonly UiBuilder _uiBuilder;
         private readonly HttpClient _httpClient = new HttpClient();
-        Venue[] venues;
 
         public ShowUiCommand(UiBuilder uiBuilder)
         {
             this._uiBuilder = uiBuilder;
         }
 
-        public async Task GetVenuesArray()
+        public async Task Handle(string args)
         {
-            this.venues = await this._httpClient.GetFromJsonAsync<Venue[]>("https://api.ffxivvenues.com/venue?open=true");
-        }
-
-        public Task Handle(string args)
-        {
-            await GetVenuesArray();
+            var venues = await this._httpClient.GetFromJsonAsync<Venue[]>("https://api.ffxivvenues.com/venue?open=true");
             var newWindow = new VenueDirectoryWindow(this._uiBuilder, venues);
             newWindow.Show();
-            
-            return Task.CompletedTask;
         }
     }
 
