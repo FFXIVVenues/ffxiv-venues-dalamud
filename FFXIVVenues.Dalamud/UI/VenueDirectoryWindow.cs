@@ -1,10 +1,8 @@
 ﻿using Dalamud.Interface;
 using FFXIVVenues.Dalamud.UI.Abstractions;
-using FFXIVVenues.VenueModels.V2022;
+using FFXIVVenues.VenueModels;
 using ImGuiNET;
 using System.Numerics;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Linq;
 using System;
 using Dalamud.Interface.Colors;

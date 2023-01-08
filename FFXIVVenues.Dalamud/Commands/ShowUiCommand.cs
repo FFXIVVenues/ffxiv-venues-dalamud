@@ -2,7 +2,7 @@
 using Dalamud.Interface;
 using FFXIVVenues.Dalamud.Commands.Brokerage;
 using FFXIVVenues.Dalamud.UI;
-using FFXIVVenues.VenueModels.V2022;
+using FFXIVVenues.VenueModels;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Json;

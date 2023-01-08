@@ -1,7 +1,7 @@
 ﻿using Dalamud.Game.Gui;
 using Dalamud.Game.Text;
 using FFXIVVenues.Dalamud.Commands.Brokerage;
-using FFXIVVenues.VenueModels.V2022;
+using FFXIVVenues.VenueModels;
 using System;
 using System.Linq;
 using System.Net.Http;
