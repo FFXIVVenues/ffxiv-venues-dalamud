@@ -1,9 +1,8 @@
 ﻿using System;
-using Dalamud.Game.Command;
-using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using System.Net.Http;
+using Dalamud.Plugin.Services;
 using Microsoft.Extensions.DependencyInjection;
 using FFXIVVenues.Dalamud.Commands.Brokerage;
 using FFXIVVenues.Dalamud.UI.Abstractions;
@@ -17,8 +16,8 @@ namespace FFXIVVenues.Dalamud
 
         public Plugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] CommandManager commandManager,
-            [RequiredVersion("1.0")] ChatGui chatGui)
+            [RequiredVersion("1.0")] ICommandManager commandManager,
+            [RequiredVersion("1.0")] IChatGui chatGui)
         {
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("https://api.ffxivvenues.com/");
