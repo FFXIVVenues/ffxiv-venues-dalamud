@@ -1,27 +1,29 @@
-﻿using Dalamud.Game.Gui;
-using Dalamud.Interface;
+﻿using Dalamud.Interface;
 using FFXIVVenues.Dalamud.Commands.Brokerage;
 using FFXIVVenues.Dalamud.UI;
+using FFXIVVenues.VenueModels;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Json;
+using FFXIVVenues.Dalamud.UI.Abstractions;
 
 namespace FFXIVVenues.Dalamud.Commands
 {
 
-    [Command("/showui", "Test command while we design a UI")]
+    [Command("/venues", "Show all venues")]
     internal class ShowUiCommand : ICommandHandler
     {
-        private readonly UiBuilder _uiBuilder;
+        private readonly WindowBroker _windowBroker;
 
-        public ShowUiCommand(UiBuilder uiBuilder)
+        public ShowUiCommand(WindowBroker windowBroker)
         {
-            this._uiBuilder = uiBuilder;
+            this._windowBroker = windowBroker;
         }
 
         public Task Handle(string args)
         {
-            var newWindow = new VenueDirectoryWindow(this._uiBuilder);
-            newWindow.Show();
-            
+            var newWindow = this._windowBroker.Create<VenueDirectoryWindow>();
+            newWindow?.Show();
             return Task.CompletedTask;
         }
     }

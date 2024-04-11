@@ -11,7 +11,7 @@ namespace FFXIVVenues.Dalamud.UI.Abstractions
         protected Vector2 InitialSize { get; set; } = new Vector2(600, 450);
         protected Vector2 MinimumSize { get; set; } = new Vector2(300, 200);
         protected Vector2 MaximumSize { get; set; } = new Vector2(1000, 1000);
-        protected ImGuiWindowFlags WindowFlags { get; set; } = ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse;
+        protected ImGuiWindowFlags WindowFlags { get; set; } = ImGuiWindowFlags.None;
 
         private bool _visible = false;
 
@@ -30,7 +30,7 @@ namespace FFXIVVenues.Dalamud.UI.Abstractions
             if (!this._visible)
                 return;
 
-            ImGui.SetNextWindowSize(this.InitialSize, ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(this.InitialSize, ImGuiCond.Always);
             ImGui.SetNextWindowSizeConstraints(this.MinimumSize, this.MaximumSize);
             if (ImGui.Begin(this.Title, ref this._visible, this.WindowFlags))
             {
