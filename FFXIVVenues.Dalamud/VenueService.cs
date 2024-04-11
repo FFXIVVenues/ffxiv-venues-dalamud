@@ -2,8 +2,8 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Dalamud.Interface.Internal;
 using Dalamud.Plugin;
-using ImGuiScene;
 
 namespace FFXIVVenues.Dalamud;
 
@@ -11,8 +11,9 @@ public class VenueService : IVenueService
 {
     private readonly DalamudPluginInterface _pluginInterface;
     private readonly HttpClient _httpClient;
-    private Dictionary<string, TextureWrap> _banners;
-    private readonly TextureWrap _loadingTexture;
+    private Dictionary<string, IDalamudTextureWrap?> _banners;
+    private Dictionary<string, Task> _bannerTasks;
+    private readonly IDalamudTextureWrap _loadingTexture;
 
     public VenueService(DalamudPluginInterface pluginInterface, HttpClient httpClient)
     {
@@ -23,30 +24,34 @@ public class VenueService : IVenueService
         this._loadingTexture = this._pluginInterface.UiBuilder.LoadImage(loadingImage);
     }
 
-    public TextureWrap GetVenueBanner(string venueId)
+    public IDalamudTextureWrap? GetVenueBanner(string venueId)
     {
         var bannerExists = this._banners.TryGetValue(venueId, out var banner);
         if (bannerExists)
             return banner;
 
-        this._httpClient.GetAsync($"venue/banner/{venueId}").ContinueWith(this.OnBannerResponse);
-        Task.Factory.StartNew(() =>
-        {
-            
-        });
+        if ( ! _bannerTasks.ContainsKey(venueId))
+            _bannerTasks[venueId] = this._httpClient.GetAsync($"venue/banner/{venueId}")
+                .ContinueWith(t => this.OnBannerResponseAsync(venueId, t))
+                .ContinueWith(t => _bannerTasks.Remove(venueId));
+        
         return this._loadingTexture;
     }
 
-    private Task OnBannerResponse(Task<HttpResponseMessage> response)
+    private async Task OnBannerResponseAsync(string venueId, Task<HttpResponseMessage> task)
     {
-        if (!response.IsCompletedSuccessfully)
-            this._pluginInterface
+        if (!task.IsCompletedSuccessfully)
+            _banners[venueId] = null;
+
+        var response = task.Result;
+        var stream = await response.Content.ReadAsByteArrayAsync();
+        _banners[venueId] = _pluginInterface.UiBuilder.LoadImage(stream);
     }
 }
 
 public interface IVenueService
 {
 
-    TextureWrap GetVenueBanner(string venueId);
+    IDalamudTextureWrap? GetVenueBanner(string venueId);
 
 }

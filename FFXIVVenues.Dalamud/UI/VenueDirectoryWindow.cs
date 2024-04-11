@@ -17,11 +17,12 @@ namespace FFXIVVenues.Dalamud.UI
 {
     internal class VenueDirectoryWindow : Window
     {
-        
+        private readonly VenueService _venueService;
         private readonly Task<Venue[]?> _venuesTask;
 
-        public VenueDirectoryWindow(UiBuilder uiBuilder, HttpClient httpClient) : base(uiBuilder)
+        public VenueDirectoryWindow(UiBuilder uiBuilder, HttpClient httpClient, VenueService venueService) : base(uiBuilder)
         {
+            _venueService = venueService;
             this._venuesTask = httpClient.GetFromJsonAsync<Venue[]>("https://api.ffxivvenues.com/venue");
             this.InitialSize = new Vector2(800, 100);
             this.Title = "Open venues";
@@ -68,7 +69,7 @@ namespace FFXIVVenues.Dalamud.UI
                 
                         // LOCATION COLUMN
                         
-                        ImGui.Image();
+                        ImGui.Image(this._venueService.GetVenueBanner(venue.Id).ImGuiHandle, new Vector2(100, 100));
                         ImGui.TableNextColumn();
                         ImGui.TextColored(color, venue.Location.ToString());
                         
