@@ -60,7 +60,7 @@ namespace FFXIVVenues.Dalamud.UI
                     foreach(var venue in venues)
                     {
                         var color = ImGuiColors.DalamudWhite;
-                        if (venue.IsOpen())
+                        if (venue.Resolution.IsNow)
                             color = ImGuiColors.DalamudViolet;
                 
                         //NAME COLUMN

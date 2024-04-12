@@ -20,7 +20,7 @@ public class VenueService : IVenueService
         this._pluginInterface = pluginInterface;
         this._httpClient = httpClient;
         this._banners = new();
-        var loadingImage = Path.Combine(this._pluginInterface.AssemblyLocation.Directory?.FullName!, "loading.png");
+        var loadingImage = Path.Combine(this._pluginInterface.AssemblyLocation.Directory?.FullName!, "Assets/loading.png");
         this._loadingTexture = this._pluginInterface.UiBuilder.LoadImage(loadingImage);
     }
 
@@ -29,7 +29,7 @@ public class VenueService : IVenueService
         var bannerExists = this._banners.TryGetValue(venueId, out var banner);
         if (bannerExists)
             return banner;
-
+        
         if ( ! _bannerTasks.ContainsKey(venueId))
             _bannerTasks[venueId] = this._httpClient.GetAsync($"venue/banner/{venueId}")
                 .ContinueWith(t => this.OnBannerResponseAsync(venueId, t))
