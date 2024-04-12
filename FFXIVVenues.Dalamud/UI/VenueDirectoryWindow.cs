@@ -1,5 +1,4 @@
 ﻿using Dalamud.Interface;
-using FFXIVVenues.Dalamud.UI.Abstractions;
 using FFXIVVenues.VenueModels;
 using ImGuiNET;
 using System.Numerics;
@@ -12,23 +11,31 @@ using System.Net.Http.Json;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Kernel;
+using Dalamud.Interface.Windowing;
 
 namespace FFXIVVenues.Dalamud.UI
 {
-    internal class VenueDirectoryWindow : Window
+    public class VenueDirectoryWindow : Window, IDisposable
     {
         private readonly VenueService _venueService;
         private readonly Task<Venue[]?> _venuesTask;
 
-        public VenueDirectoryWindow(UiBuilder uiBuilder, HttpClient httpClient, VenueService venueService) : base(uiBuilder)
+        public VenueDirectoryWindow(Plugin plugin, HttpClient httpClient) : base("FFXIV Venues",ImGuiWindowFlags.None)
         {
-            _venueService = venueService;
+            //_venueService = venueService;
             this._venuesTask = httpClient.GetFromJsonAsync<Venue[]>("https://api.ffxivvenues.com/venue");
-            this.InitialSize = new Vector2(800, 100);
-            this.Title = "Open venues";
+            //this.InitialSize = new Vector2(800, 100);
+            //this.Title = "Open venues";
+            this.Size = new Vector2(800, 100);
         }
-        
-        public override void Render()
+
+
+        public void Dispose()
+        {
+
+        }
+
+        public override void Draw()
         {
             // ImGui is it's own library that Dalamud is using
             ImGui.Text("A list of venues");

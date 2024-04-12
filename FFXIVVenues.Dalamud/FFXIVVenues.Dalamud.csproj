@@ -66,6 +66,7 @@
 
   <ItemGroup>
     <Folder Include="Assets" />
+    <Folder Include="UI\Abstractions\" />
   </ItemGroup>
 
   <ItemGroup>
