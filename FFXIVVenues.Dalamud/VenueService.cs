@@ -52,6 +52,6 @@ public class VenueService : IVenueService
 public interface IVenueService
 {
 
-    IDalamudTextureWrap? GetVenueBanner(string venueId);
+    //IDalamudTextureWrap? GetVenueBanner(string venueId);
 
 }

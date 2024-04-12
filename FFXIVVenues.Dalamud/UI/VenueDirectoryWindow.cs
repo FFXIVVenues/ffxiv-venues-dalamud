@@ -27,7 +27,7 @@ namespace FFXIVVenues.Dalamud.UI
             this.InitialSize = new Vector2(800, 100);
             this.Title = "Open venues";
         }
-
+        
         public override void Render()
         {
             // ImGui is it's own library that Dalamud is using
@@ -69,7 +69,7 @@ namespace FFXIVVenues.Dalamud.UI
                 
                         // LOCATION COLUMN
                         
-                        ImGui.Image(this._venueService.GetVenueBanner(venue.Id).ImGuiHandle, new Vector2(100, 100));
+                        //ImGui.Image(this._venueService.GetVenueBanner(venue.Id).ImGuiHandle, new Vector2(100, 100));
                         ImGui.TableNextColumn();
                         ImGui.TextColored(color, venue.Location.ToString());
                         
