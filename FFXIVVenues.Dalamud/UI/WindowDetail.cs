@@ -31,6 +31,12 @@ namespace FFXIVVenues.Dalamud.UI
             if (Info == null) this.IsOpen = false;
             ImGui.Text($"Venue Name: {Info.Name}");
             ImGui.Text($"Venue Location: {Info.Location}");
+
+            // Set the wrap position to the current window width (or any specific width you want)
+            ImGui.PushTextWrapPos(ImGui.GetCursorPos().X + ImGui.GetContentRegionAvail().X);
+            ImGui.Text($"Description: {Info.Description}");
+            ImGui.PopTextWrapPos();
+            ImGui.Text($"Is Open?: {Info.IsOpen}");
         }
     }
 }

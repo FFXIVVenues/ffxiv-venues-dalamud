@@ -43,6 +43,9 @@ namespace FFXIVVenues.Dalamud
             serviceCollection.AddSingleton(chatGui);
             serviceCollection.AddSingleton(config);
             serviceCollection.AddSingleton(httpClient);
+            serviceCollection.AddSingleton(WindowDetail);
+            serviceCollection.AddSingleton(VenueDirectoryWindow);
+
            //serviceCollection.AddSingleton<VenueService>();        
             this._serviceProvider = serviceCollection.BuildServiceProvider();
             VenueDirectoryWindow = new VenueDirectoryWindow(this, httpClient);

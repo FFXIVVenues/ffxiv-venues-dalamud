@@ -14,6 +14,7 @@ using FFXIVClientStructs.FFXIV.Client.Graphics.Kernel;
 using Dalamud.Interface.Windowing;
 using Dalamud.Logging;
 using FFXIVVenues.Dalamud.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FFXIVVenues.Dalamud.UI
 {
@@ -79,13 +80,20 @@ namespace FFXIVVenues.Dalamud.UI
                         //NAME COLUMN
                         ImGui.TableNextColumn();
                         //ImGui.TextColored(color, venue.Name);
+
+
+                        // Push the color for text
+                        ImGui.PushStyleColor(ImGuiCol.Text, color);
+
+
                         if (ImGui.Selectable(venue.Name))
                         {
                             // Ensure that the Info object is correctly populated
+                            string formattedDescription = venue.Description == null ? "" : string.Join(Environment.NewLine, venue.Description.Where(s => s != null));
                             _plugin.WindowDetail.Info = new VenueInfo
                             {
                                 Name = venue.Name,
-                                Description = venue.Description.ToString(),
+                                Description = formattedDescription,
                                 Location = venue.Location.ToString(),      
                                 ID = venue.Id,
                                 IsOpen = venue.Resolution?.IsNow ?? false
@@ -94,6 +102,7 @@ namespace FFXIVVenues.Dalamud.UI
                             // Make sure this is being set
                             _plugin.WindowDetail.IsOpen = true;
                         }
+                        ImGui.PopStyleColor(1);
 
 
 
