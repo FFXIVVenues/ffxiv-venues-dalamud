@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Kernel;
 using Dalamud.Interface.Windowing;
 using Dalamud.Logging;
+using FFXIVVenues.Dalamud.Data;
 
 namespace FFXIVVenues.Dalamud.UI
 {
@@ -20,20 +21,24 @@ namespace FFXIVVenues.Dalamud.UI
     {
         private readonly VenueService _venueService;
         private readonly Task<Venue[]?> _venuesTask;
+        private readonly Plugin _plugin;
+
 
         public VenueDirectoryWindow(Plugin plugin, HttpClient httpClient) : base("FFXIV Venues",ImGuiWindowFlags.None)
         {
             //_venueService = venueService;
             this._venuesTask = httpClient.GetFromJsonAsync<Venue[]>("https://api.ffxivvenues.com/venue");
+            this._plugin = plugin;
             //this.InitialSize = new Vector2(800, 100);
             //this.Title = "Open venues";
             //this.Size = new Vector2(800, 100);
+
         }
 
 
         public void Dispose()
         {
-
+            
         }
 
         public override void Draw()
@@ -73,10 +78,29 @@ namespace FFXIVVenues.Dalamud.UI
                 
                         //NAME COLUMN
                         ImGui.TableNextColumn();
-                        ImGui.TextColored(color, venue.Name);
-                
+                        //ImGui.TextColored(color, venue.Name);
+                        if (ImGui.Selectable(venue.Name))
+                        {
+                            // Ensure that the Info object is correctly populated
+                            _plugin.WindowDetail.Info = new VenueInfo
+                            {
+                                Name = venue.Name,
+                                Description = venue.Description.ToString(),
+                                Location = venue.Location.ToString(),      
+                                ID = venue.Id,
+                                IsOpen = venue.Resolution?.IsNow ?? false
+                            };
+
+                            // Make sure this is being set
+                            _plugin.WindowDetail.IsOpen = true;
+                        }
+
+
+
+
+
                         // LOCATION COLUMN
-                        
+
                         //ImGui.Image(this._venueService.GetVenueBanner(venue.Id).ImGuiHandle, new Vector2(100, 100));
                         ImGui.TableNextColumn();
                         ImGui.TextColored(color, venue.Location.ToString());
@@ -105,6 +129,7 @@ namespace FFXIVVenues.Dalamud.UI
             ImGui.EndTable();
             ImGui.Spacing();
             ImGui.Text("Thank you for viewing this list of venues");
+
         }
 
         public static void OpenBrowser(string url)
