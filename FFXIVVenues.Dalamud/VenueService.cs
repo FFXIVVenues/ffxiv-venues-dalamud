@@ -20,6 +20,7 @@ public class VenueService : IVenueService
         this._pluginInterface = pluginInterface;
         this._httpClient = httpClient;
         this._banners = new();
+        this._bannerTasks = new();
         var loadingImage = Path.Combine(this._pluginInterface.AssemblyLocation.Directory?.FullName!, "loading.png");
         this._loadingTexture = this._pluginInterface.UiBuilder.LoadImage(loadingImage);
     }
