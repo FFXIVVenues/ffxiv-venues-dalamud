@@ -38,5 +38,10 @@ namespace FFXIVVenues.Dalamud.UI
             ImGui.PopTextWrapPos();
             ImGui.Text($"Is Open?: {Info.IsOpen}");
         }
+
+        public void Dispose()
+        {
+
+        }
     }
 }

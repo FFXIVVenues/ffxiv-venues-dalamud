@@ -43,8 +43,6 @@ namespace FFXIVVenues.Dalamud
             serviceCollection.AddSingleton(chatGui);
             serviceCollection.AddSingleton(config);
             serviceCollection.AddSingleton(httpClient);
-            serviceCollection.AddSingleton(WindowDetail);
-            serviceCollection.AddSingleton(VenueDirectoryWindow);
 
            //serviceCollection.AddSingleton<VenueService>();        
             this._serviceProvider = serviceCollection.BuildServiceProvider();
@@ -56,15 +54,41 @@ namespace FFXIVVenues.Dalamud
             this.WindowSystem.AddWindow(WindowDetail);
 
             pluginInterface.UiBuilder.Draw += DrawUI;
-            pluginInterface.UiBuilder.OpenMainUi += DrawUI;
+            pluginInterface.UiBuilder.OpenMainUi += ToggleVenueDirectoryWindow;
             commandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {
                 HelpMessage = "Opens the list of venues"
             });
         }
 
-        public void Dispose() =>
+        private void ToggleVenueDirectoryWindow()
+        {
+            // Assuming you have an instance of your MainWindow accessible
+            // For example, this could be stored in a property like this.PluginUi.MainWindow
+
+            if (this.VenueDirectoryWindow.IsOpen)
+            {
+                // The window is currently open, so close it
+                this.VenueDirectoryWindow.IsOpen = false;
+                this.WindowDetail.IsOpen = false;
+            }
+            else
+            {
+                this.VenueDirectoryWindow.IsOpen = true;
+            }
+        }
+
+        public void Dispose()
+        {
             this._serviceProvider.Dispose();
+            this.WindowSystem.RemoveAllWindows();
+
+            VenueDirectoryWindow.Dispose();
+            WindowDetail.Dispose();
+
+
+            //TO DO: Dispose of the command
+        }
 
         private void OnCommand(string command, string args)
         {
