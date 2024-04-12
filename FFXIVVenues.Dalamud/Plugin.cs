@@ -40,6 +40,8 @@ namespace FFXIVVenues.Dalamud
                 
             this._serviceProvider = serviceCollection.BuildServiceProvider();
             VenueDirectoryWindow = new VenueDirectoryWindow(this, httpClient);
+            // Register the window with the window system
+            this.WindowSystem.AddWindow(VenueDirectoryWindow);
 
             pluginInterface.UiBuilder.Draw += DrawUI;
             pluginInterface.UiBuilder.OpenMainUi += DrawUI;

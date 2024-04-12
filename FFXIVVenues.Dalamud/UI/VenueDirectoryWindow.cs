@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Kernel;
 using Dalamud.Interface.Windowing;
+using Dalamud.Logging;
 
 namespace FFXIVVenues.Dalamud.UI
 {
@@ -26,7 +27,7 @@ namespace FFXIVVenues.Dalamud.UI
             this._venuesTask = httpClient.GetFromJsonAsync<Venue[]>("https://api.ffxivvenues.com/venue");
             //this.InitialSize = new Vector2(800, 100);
             //this.Title = "Open venues";
-            this.Size = new Vector2(800, 100);
+            //this.Size = new Vector2(800, 100);
         }
 
 
@@ -67,7 +68,7 @@ namespace FFXIVVenues.Dalamud.UI
                     foreach(var venue in venues)
                     {
                         var color = ImGuiColors.DalamudWhite;
-                        if (venue.Resolution.IsNow)
+                        if (venue.Resolution?.IsNow ?? false)
                             color = ImGuiColors.DalamudViolet;
                 
                         //NAME COLUMN
